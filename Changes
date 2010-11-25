@@ -1,5 +1,11 @@
 Revision history for CPU-Z80-Disassembler
 
+0.02	2010-11-25
+	Bug Fixes
+	* Tests fail when CPU::Z80::Assembler not installed
+	* Tests fail due to line ending differences in output and benchmark files
+	* z80dis fixed
+
 0.01	2010-11-21
         First version
 

@@ -22,7 +22,7 @@ use CPU::Z80::Disassembler::Instruction;
 use CPU::Z80::Disassembler::Format;
 use CPU::Z80::Disassembler::Labels;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 #------------------------------------------------------------------------------
 
