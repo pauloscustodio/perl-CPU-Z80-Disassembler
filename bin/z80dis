@@ -17,10 +17,10 @@ my $file = shift;
 my $dis = CPU::Z80::Disassembler->new;
 
 $opt_a = (defined $opt_a) ? hex($opt_a) : 0;
-$dis->load_file($opt_a, $file);
+$dis->memory->load_file($file, $opt_a);
 
 my $fh;
 if ($opt_o) {
 	open($fh, ">", $opt_o) or die "write $opt_o: $!\n";
 }
-$dis->write_dump($opt_a, $fh);
+$dis->write_dump($opt_o);
