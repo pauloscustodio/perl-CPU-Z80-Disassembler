@@ -8,7 +8,7 @@ use TestAsm;
 
 use Test::More;
 use File::Slurp;
-use Test::Output;
+use Test::Output 'stdout_from';
 
 use CPU::Z80::Disassembler;	# use_ok does not import symbols?!
 
@@ -117,10 +117,11 @@ is $dis->instr->[0x028E]->as_string, 'ld l,L3+0x01';
 # write_dump - empty
 isa_ok $dis = CPU::Z80::Disassembler->new, 'CPU::Z80::Disassembler';
 
-stdout_is { $dis->write_dump; } "", "$dump_output : empty";
+$stdout = stdout_from(sub {$dis->write_dump});
+ok lines_equal($stdout, ""), "$dump_output : empty";
 
 $dis->write_dump($dump_output);
-$ok = "" eq read_file($dump_output);
+$ok = lines_equal("", scalar(read_file($dump_output)));
 ok $ok, "$dump_output : empty";
 unlink $dump_output if ($ok && ! $ENV{DEBUG});
 
@@ -129,11 +130,13 @@ unlink $dump_output if ($ok && ! $ENV{DEBUG});
 isa_ok $dis = CPU::Z80::Disassembler->new, 'CPU::Z80::Disassembler';
 $dis->memory->load_file($rom_input);
 
-stdout_is { $dis->write_dump; } read_file($dump_benchmark), 
+$stdout = stdout_from(sub {$dis->write_dump});
+ok lines_equal($stdout, scalar(read_file($dump_benchmark))), 
 		"$dump_benchmark $dump_output : equal";
 
 $dis->write_dump($dump_output);
-$ok = read_file($dump_benchmark) eq read_file($dump_output);
+$ok = lines_equal(scalar(read_file($dump_benchmark)), 
+				  scalar(read_file($dump_output)));
 ok $ok, "$dump_benchmark $dump_output : equal";
 unlink $dump_output if ($ok && ! $ENV{DEBUG});
 
@@ -141,10 +144,11 @@ unlink $dump_output if ($ok && ! $ENV{DEBUG});
 # write_asm - empty
 isa_ok $dis = CPU::Z80::Disassembler->new, 'CPU::Z80::Disassembler';
 
-stdout_is { $dis->write_asm; } "", "$asm_output : empty";
+$stdout = stdout_from(sub {$dis->write_asm});
+ok lines_equal($stdout, ""), "$asm_output : empty";
 
 $dis->write_asm($asm_output);
-$ok = "" eq read_file($asm_output);
+$ok = lines_equal("", scalar(read_file($asm_output)));
 ok $ok, "$asm_output : empty";
 unlink $asm_output if ($ok && ! $ENV{DEBUG});
 

@@ -112,7 +112,8 @@ $dis->instr->[0x3657]->format->{NN} = sub { format_hex4($_[0]) };
 # generate and test assembly
 $dis->analyse;
 $dis->write_asm($asm_output);
-my $ok = read_file($asm_benchmark) eq read_file($asm_output);
+my $ok = lines_equal(scalar(read_file($asm_benchmark)), 
+					 scalar(read_file($asm_output)));
 ok $ok, "$asm_benchmark $asm_output : equal";
 test_assembly($asm_output, $rom_input);
 unlink $asm_output if ($ok && ! $ENV{DEBUG});
