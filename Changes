@@ -1,5 +1,10 @@
 Revision history for CPU-Z80-Disassembler
 
+0.03	2010-11-28
+	Bug Fixes
+	* Tests fail when CPU::Z80::Assembler is installed, but version is old, 
+	  (e.g. 'equ' not recognized)
+
 0.02	2010-11-25
 	Bug Fixes
 	* Tests fail when CPU::Z80::Assembler not installed
@@ -8,4 +13,3 @@ Revision history for CPU-Z80-Disassembler
 
 0.01	2010-11-21
         First version
-

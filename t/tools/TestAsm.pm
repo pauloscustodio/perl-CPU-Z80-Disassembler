@@ -10,6 +10,8 @@ use warnings;
 use Test::More;
 use File::Slurp;
 
+use CPU::Z80::Assembler;
+
 use Exporter 'import';
 our @EXPORT = (qw( test_assembly lines_equal ));
 
@@ -17,13 +19,7 @@ our @EXPORT = (qw( test_assembly lines_equal ));
 # try to assemble file to check if the result is the same binary file
 sub test_assembly {
 	my($asm, $bmk_bin) = @_;
-	eval { require CPU::Z80::Assembler };
-	if ($@) {
-		diag "CPU::Z80::Assembler not found, test_assembly skipped";
-		return;
-	}
-	
-	my $bin = CPU::Z80::Assembler::z80asm("#include '$asm'");
+	my $bin = CPU::Z80::Assembler::z80asm_file($asm);
 	ok $bin eq read_file($bmk_bin, binmode => ':raw'), "$asm assembles to $bmk_bin";
 }
 

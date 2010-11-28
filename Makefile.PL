@@ -16,6 +16,7 @@ WriteMakefile(
 		'Bit::Vector'			=> 7.1,
 		'Carp'					=> 0,
 		'Class::XSAccessor'		=> 1.08,
+		'CPU::Z80::Assembler'	=> 2.13,	# test fails if z80masm is not up-to-date
 		'File::Basename'		=> 0,
 		'File::Slurp'			=> 9999.12,
 		'Getopt::Std'			=> 0,
