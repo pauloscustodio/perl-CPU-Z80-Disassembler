@@ -1,5 +1,9 @@
 Revision history for CPU-Z80-Disassembler
 
+0.04	2011-03-24
+	Bug Fixes
+	* t/Memory.t failed test on non-US locale due to different $! error message.
+
 0.03	2010-11-28
 	Bug Fixes
 	* Tests fail when CPU::Z80::Assembler is installed, but version is old, 

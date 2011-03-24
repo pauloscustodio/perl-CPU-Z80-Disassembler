@@ -54,7 +54,7 @@ isa_ok $mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 eval 	{ $mem->load_file('zx48.rom') };
-like 	$@, qr/No such file or directory/i;
+like 	$@, qr/read_file 'zx48.rom' - sysopen/i;
 
 #------------------------------------------------------------------------------
 # load_file, all default
