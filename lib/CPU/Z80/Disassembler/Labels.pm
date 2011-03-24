@@ -21,7 +21,7 @@ use Bit::Vector;
 use CPU::Z80::Disassembler::Label;
 use CPU::Z80::Disassembler::Format;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 #------------------------------------------------------------------------------
 
