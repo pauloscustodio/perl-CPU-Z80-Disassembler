@@ -1,3 +1,4 @@
+.gitignore
 bin/z80dis
 Changes
 lib/CPU/Z80/Disassembler.pm
