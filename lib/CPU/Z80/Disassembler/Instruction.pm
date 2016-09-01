@@ -151,7 +151,7 @@ object.
 
 =head2 opcode
 
-Cannonical assembly instruction, e.g. 'ld a,(NN)'. 
+Canonical assembly instruction, e.g. 'ld a,(NN)'. 
 The possible argument types are N, NN, DIS and STR. 
 There is one method to get/set each of the argument types.
 
@@ -221,7 +221,7 @@ use Class::XSAccessor {
 			'memory',		# point to whole memory
 			'addr',			# start address
 			'size',			# number of bytes of instruction
-			'opcode',		# cannonical opcode, e.g. 'ld a,(NN)'
+			'opcode',		# canonical opcode, e.g. 'ld a,(NN)'
 			'N',			#  8-bit data
 			'NN',			# 16-bit data
 			'DIS',			# offset for index
