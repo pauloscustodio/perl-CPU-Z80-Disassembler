@@ -24,16 +24,16 @@ isa_ok 	$mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 eval	{ $mem->poke_str(0x10000, 'AB') };
-like	$@, qr/^address 0x10000 out of range at t.*?Memory.t line \d+/;
+like	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 
 eval	{ $mem->poke_str(0xFFFF, 'AB') };
-like	$@, qr/^address 0x10000 out of range at t.*?Memory.t line \d+/;
+like	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 
 eval	{ $mem->poke_str(-2, 'CD') };
-like	$@, qr/^address -0x02 out of range at t.*?Memory.t line \d+/;
+like	$@, qr/^address -\$02 out of range at t.*?Memory.t line \d+/;
 
 eval	{ $mem->poke_str(-1, 'CD') };
-like	$@, qr/^address -0x01 out of range at t.*?Memory.t line \d+/;
+like	$@, qr/^address -\$01 out of range at t.*?Memory.t line \d+/;
 
 $mem->poke_str(0, 'CD');
 is		$mem->peek(0), ord('C');
@@ -90,7 +90,7 @@ is_deeply [$it->()], [0xC000, 0xFFFF];
 is_deeply [$it->()], [];
 
 eval 	{ $mem->load_file('t/data/zx48.rom', 0xC001) };
-like 	$@, qr/^address 0x10000 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 
 #------------------------------------------------------------------------------
 # load_file, at address, skip header
@@ -137,7 +137,7 @@ is_deeply [$it->()], [];
 ok 1, "range test peek_str";
 
 eval 	{ $mem->peek_str(-1, 10) };
-like 	$@, qr/^address -0x01 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^address -\$01 out of range at t.*?Memory.t line \d+/;
 
 eval 	{ $mem->peek_str(0, 0) };
 like 	$@, qr/^invalid length 0 at t.*?Memory.t line \d+/;
@@ -146,7 +146,7 @@ is		$mem->peek_str(0, 10), undef;
 is		$mem->peek_str(65535, 10), undef;
 
 eval 	{ $mem->peek_str(65536, 10) };
-like 	$@, qr/^address 0x10000 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 
 
 for my $func (qw(	peek 
@@ -156,13 +156,13 @@ for my $func (qw(	peek
 	ok 1, "range test $func";
 	
 	eval 	{ $mem->$func(-1) };
-	like 	$@, qr/^address -0x01 out of range at t.*?Memory.t line \d+/;
+	like 	$@, qr/^address -\$01 out of range at t.*?Memory.t line \d+/;
 
 	is		$mem->$func(0), undef;
 	is		$mem->$func(65535), undef;
 
 	eval 	{ $mem->$func(65536) };
-	like 	$@, qr/^address 0x10000 out of range at t.*?Memory.t line \d+/;
+	like 	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 }
 
 #------------------------------------------------------------------------------
@@ -221,7 +221,7 @@ for my $func (qw(	poke
 	ok 1, "range test $func";
 	
 	eval 	{ $mem->$func(-1, 0) };
-	like 	$@, qr/^address -0x01 out of range at t.*?Memory.t line \d+/;
+	like 	$@, qr/^address -\$01 out of range at t.*?Memory.t line \d+/;
 
 	$mem->$func(0, 0);
 	if ($func =~ /poke16|strz/) {
@@ -232,50 +232,50 @@ for my $func (qw(	poke
 	}
 
 	eval 	{ $mem->$func(65536, 0) };
-	like 	$@, qr/^address 0x10000 out of range at t.*?Memory.t line \d+/;
+	like 	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 }
 
 for my $func (qw( poke poke8u )) {
 	ok 1, "range test $func";
 	
 	eval	{ $mem->$func(0, -1) };
-	like 	$@, qr/^unsigned byte -0x01 out of range at t.*?Memory.t line \d+/;
+	like 	$@, qr/^unsigned byte -\$01 out of range at t.*?Memory.t line \d+/;
 
 	$mem->$func(0, 0);
 	$mem->$func(0, 255);
 
 	eval	{ $mem->$func(0, 256) };
-	like 	$@, qr/^unsigned byte 0x100 out of range at t.*?Memory.t line \d+/;
+	like 	$@, qr/^unsigned byte \$100 out of range at t.*?Memory.t line \d+/;
 }
 
 eval	{ $mem->poke8s(0, -129) };
-like 	$@, qr/^signed byte -0x81 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^signed byte -\$81 out of range at t.*?Memory.t line \d+/;
 
 $mem->poke8s(0, -128);
 $mem->poke8s(0, 127);
 
 eval	{ $mem->poke8s(0, 128) };
-like 	$@, qr/^signed byte 0x80 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^signed byte \$80 out of range at t.*?Memory.t line \d+/;
 
 
 eval	{ $mem->poke16u(0, -1) };
-like 	$@, qr/^unsigned word -0x01 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^unsigned word -\$01 out of range at t.*?Memory.t line \d+/;
 
 $mem->poke16u(0, 0);
 $mem->poke16u(0, 65535);
 
 eval	{ $mem->poke16u(0, 65536) };
-like 	$@, qr/^unsigned word 0x10000 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^unsigned word \$10000 out of range at t.*?Memory.t line \d+/;
 
 
 eval	{ $mem->poke16s(0, -32769) };
-like 	$@, qr/^signed word -0x8001 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^signed word -\$8001 out of range at t.*?Memory.t line \d+/;
 
 $mem->poke16s(0, -32768);
 $mem->poke16s(0, 32767);
 
 eval	{ $mem->poke16s(0, 32768) };
-like 	$@, qr/^signed word 0x8000 out of range at t.*?Memory.t line \d+/;
+like 	$@, qr/^signed word \$8000 out of range at t.*?Memory.t line \d+/;
 
 eval 	{ $mem->poke_strz(0, "hello".chr(0)) };
 like 	$@, qr/^invalid zero character in string at t.*?Memory.t line \d+/;

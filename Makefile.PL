@@ -31,6 +31,8 @@ WriteMakefile(
 		'Test::Output'			=> 0.16,
 		'Tie::File'				=> 0.96,
         'Test::More'			=> 0.96,	# needs done_testing()
+		'CPU::Z80::Assembler'	=> 0,
+		'Path::Tiny'			=> 0,
     },
 	EXE_FILES => [
 		'bin/z80dis',

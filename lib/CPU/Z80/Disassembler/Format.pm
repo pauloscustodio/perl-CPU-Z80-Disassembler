@@ -51,37 +51,37 @@ Returns the string representation of a value in hexadecimal..
 
 #------------------------------------------------------------------------------
 sub format_hex { 
-	$_[0] < 0 ? sprintf("-0x%02X", -$_[0]) : sprintf("0x%02X", $_[0]);
+	$_[0] < 0 ? sprintf("-\$%02X", -$_[0]) : sprintf("\$%02X", $_[0]);
 }
 #------------------------------------------------------------------------------
 
 =head2 format_hex2
 
-Returns the string representation of a byte in hexadecimal as 0xHH.
+Returns the string representation of a byte in hexadecimal as $HH.
 
 =cut
 
 #------------------------------------------------------------------------------
 sub format_hex2 { 
-	sprintf("0x%02X", $_[0] & 0xFF) 
+	sprintf("\$%02X", $_[0] & 0xFF) 
 }
 #------------------------------------------------------------------------------
 
 =head2 format_hex4
 
-Returns the string representation of a word in hexadecimal as 0xHHHH.
+Returns the string representation of a word in hexadecimal as $HHHH.
 
 =cut
 
 #------------------------------------------------------------------------------
 sub format_hex4 { 
-	sprintf("0x%04X", $_[0] & 0xFFFF) 
+	sprintf("\$%04X", $_[0] & 0xFFFF) 
 }
 #------------------------------------------------------------------------------
 
 =head2 format_bin8
 
-Returns the string representation of a word in binary as 0b01010101.
+Returns the string representation of a word in binary as %01010101.
 
 =cut
 
@@ -101,13 +101,13 @@ sub format_bin8 {
 		$val >>= 1;
 	}
 	
-	return $sign.'0b'.$digits;
+	return $sign.'%'.$digits;
 }
 #------------------------------------------------------------------------------
 
 =head2 format_dis
 
-Returns the string representation of a signed byte in decimal as +0xHH, -0xHH or
+Returns the string representation of a signed byte in hexadecimal as +$HH, -$HH or
 empty string for zero.
 
 =cut
