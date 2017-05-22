@@ -141,7 +141,6 @@ sub create_ctl_file {
 		$addr = $next_addr;
 	}
 
-	path('/temp/zx81_pending.asm')->spew(@in_asm);
 	path($ctl_file)->spew(@ctl);
 	ok -f $ctl_file;
 }
@@ -258,14 +257,6 @@ sub copy_information_to_ctl {
 	my $addr = 0;
 	while (@asm) {
 		$addr = copy_block($addr, \@ctl_from, \@ctl_to, \@asm);
-		
-		path('/temp/zx81_pending.asm')->spew(@asm);
-		path('/temp/zx81_pending.ctl')->spew(@ctl_from);
-
-		path($ctl_file)->spew(@ctl_to, @ctl_from);
-		#create_asm_file($asm_file, $ctl_file);
-		#test_assemble($asm_file, $rom_file);
-		#$_=scalar(<>);
 	}
 	
 	path($ctl_file)->spew(@ctl_to, @ctl_from);
