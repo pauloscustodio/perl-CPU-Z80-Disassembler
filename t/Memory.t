@@ -18,7 +18,7 @@ isa_ok 	$mem = CPU::Z80::Disassembler::Memory->new,
 $mem->poke_str(0, '');
 isa_ok	$it = $mem->loaded_iter, 'CODE';
 is_deeply [$it->()], [];
-		
+
 
 isa_ok 	$mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
@@ -50,15 +50,15 @@ is_deeply [$it->()], [];
 
 #------------------------------------------------------------------------------
 # load_file, file not found
-isa_ok $mem = CPU::Z80::Disassembler::Memory->new, 
+isa_ok $mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 eval 	{ $mem->load_file('zx48.rom') };
-like 	$@, qr/read_file 'zx48.rom' - sysopen/i;
+like 	$@, qr/read_file 'zx48.rom' - (?:sys)?open/i;
 
 #------------------------------------------------------------------------------
 # load_file, all default
-isa_ok $mem = CPU::Z80::Disassembler::Memory->new, 
+isa_ok $mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 $mem->load_file('t/data/zx48.rom');
@@ -75,7 +75,7 @@ is_deeply [$it->()], [];
 
 #------------------------------------------------------------------------------
 # load_file, at address
-isa_ok $mem = CPU::Z80::Disassembler::Memory->new, 
+isa_ok $mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 $mem->load_file('t/data/zx48.rom', 0xC000);
@@ -94,7 +94,7 @@ like 	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 
 #------------------------------------------------------------------------------
 # load_file, at address, skip header
-isa_ok $mem = CPU::Z80::Disassembler::Memory->new, 
+isa_ok $mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 $mem->load_file('t/data/zx48.rom', 0x101, 0x101);
@@ -112,7 +112,7 @@ is_deeply [$it->()], [];
 
 #------------------------------------------------------------------------------
 # load_file, at address, skip header, only some bytes
-isa_ok $mem = CPU::Z80::Disassembler::Memory->new, 
+isa_ok $mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
 $mem->load_file('t/data/zx48.rom', 0x101, 0x101, 3);
@@ -149,12 +149,12 @@ eval 	{ $mem->peek_str(65536, 10) };
 like 	$@, qr/^address \$10000 out of range at t.*?Memory.t line \d+/;
 
 
-for my $func (qw(	peek 
-					peek8u peek8s 
-					peek16u peek16s 
+for my $func (qw(	peek
+					peek8u peek8s
+					peek16u peek16s
 					peek_strz peek_str7 )) {
 	ok 1, "range test $func";
-	
+
 	eval 	{ $mem->$func(-1) };
 	like 	$@, qr/^address -\$01 out of range at t.*?Memory.t line \d+/;
 
@@ -214,12 +214,12 @@ is		$mem->peek_strz(0x3FFF),	 	undef;
 isa_ok 	$mem = CPU::Z80::Disassembler::Memory->new,
 		'CPU::Z80::Disassembler::Memory';
 
-for my $func (qw(	poke 
-					poke8u poke8s 
-					poke16u poke16s 
+for my $func (qw(	poke
+					poke8u poke8s
+					poke16u poke16s
 					poke_str poke_strz poke_str7 )) {
 	ok 1, "range test $func";
-	
+
 	eval 	{ $mem->$func(-1, 0) };
 	like 	$@, qr/^address -\$01 out of range at t.*?Memory.t line \d+/;
 
@@ -237,7 +237,7 @@ for my $func (qw(	poke
 
 for my $func (qw( poke poke8u )) {
 	ok 1, "range test $func";
-	
+
 	eval	{ $mem->$func(0, -1) };
 	like 	$@, qr/^unsigned byte -\$01 out of range at t.*?Memory.t line \d+/;
 
@@ -293,9 +293,9 @@ isa_ok 	$mem = CPU::Z80::Disassembler::Memory->new,
 
 for my $func (qw( poke poke8u poke8s )) {
 	ok 1, "test $func";
-	
+
 	$mem->$func(0, 127);
-	
+
 	isa_ok	$it = $mem->loaded_iter, 'CODE';
 	is_deeply [$it->()], [0,0];
 	is_deeply [$it->()], [];
@@ -305,9 +305,9 @@ for my $func (qw( poke poke8u poke8s )) {
 
 for my $func (qw( poke16u poke16s )) {
 	ok 1, "test $func";
-	
+
 	$mem->$func(0, 32767);
-	
+
 	isa_ok	$it = $mem->loaded_iter, 'CODE';
 	is_deeply [$it->()], [0,1];
 	is_deeply [$it->()], [];
