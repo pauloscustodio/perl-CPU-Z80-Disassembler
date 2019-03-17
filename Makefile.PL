@@ -21,7 +21,7 @@ WriteMakefile(
 		'CPU::Z80::Assembler'	=> 2.16,	# test fails if z80masm is not up-to-date
 		'File::Slurp'			=> 9999.26,
 		'Test::Output'			=> 1.031,
-		'Tie::File'				=> 1.01,
+		'Tie::File'				=> 1.00,
         'Test::More'			=> 1.302162,
 		'Path::Tiny'			=> 0.108,
     },
