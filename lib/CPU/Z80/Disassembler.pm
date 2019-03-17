@@ -22,7 +22,7 @@ use CPU::Z80::Disassembler::Labels;
 
 use Path::Tiny;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 #------------------------------------------------------------------------------
 
@@ -130,9 +130,8 @@ Causes the disassembly to dump:
 
 #------------------------------------------------------------------------------
 # Hold a disassembly session
-use Class::XSAccessor {
-	constructor	=> '_new',
-	accessors => [ 
+use base 'Class::Accessor';
+__PACKAGE__->mk_accessors(
 		'memory',		# memory to disassemble
 		'_type',		# identified type of each memory address, TYPE_xxx
 		'instr',		# array of Instruction objects at each address
@@ -151,8 +150,7 @@ use Class::XSAccessor {
 						# header and footer sections of disassembled file
 		'ix_base', 'iy_base',
 						# base addess for (IX+DIS) and (IY+DIS)
-	],
-};
+);
 
 use constant TYPE_UNKNOWN	=> '-';
 use constant TYPE_CODE		=> 'C';
@@ -169,14 +167,14 @@ sub new {
 	my $memory = CPU::Z80::Disassembler::Memory->new;
 	my $type   = CPU::Z80::Disassembler::Memory->new;
 	my $labels = CPU::Z80::Disassembler::Labels->new;
-	return $class->_new(memory 			=> $memory, 
-						_type 			=> $type, 
-						instr 			=> [],
-						labels			=> $labels,
-						_call_instr		=> {},
-						_can_call		=> {},
-						_block_comments	=> [],
-					);
+	return bless {	memory 			=> $memory, 
+					_type 			=> $type, 
+					instr 			=> [],
+					labels			=> $labels,
+					_call_instr		=> {},
+					_can_call		=> {},
+					_block_comments	=> [],
+				}, $class;
 }
 #------------------------------------------------------------------------------
 

@@ -1,3 +1,13 @@
+0.06	2019-03-17
+
+	Bug Fixes
+	* Update tests to allow for the refactor of File::Slurp
+	  With thanks to the Pull Request author: Chase Whitener
+
+	Other
+	* Use Class::Accessor instead of Class::XSAccessor to remove
+	  dependencies from XS modules.
+
 0.06	2017-05-21
 	New features
 	* Add disassembly control files to allow iterative disassembly sessions

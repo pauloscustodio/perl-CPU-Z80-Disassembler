@@ -17,7 +17,7 @@ use Asm::Z80::Table;
 use CPU::Z80::Disassembler::Memory;
 use CPU::Z80::Disassembler::Format;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 #------------------------------------------------------------------------------
 
@@ -222,9 +222,8 @@ see C<next_code> above.
 =cut
 
 #------------------------------------------------------------------------------
-use Class::XSAccessor {
-	constructor	=> '_new',
-		accessors => [ 
+use base 'Class::Accessor';
+__PACKAGE__->mk_accessors(
 			'memory',		# point to whole memory
 			'addr',			# start address
 			'size',			# number of bytes of instruction
@@ -239,8 +238,7 @@ use Class::XSAccessor {
 							# format each type of argument
 			'is_code',		# true for a Z80 assembly instruction, 
 							# false for def*, org, ...
-		],
-};
+);
 
 #------------------------------------------------------------------------------
 sub format {
@@ -293,10 +291,10 @@ sub is_break_flow	{ shift->opcode =~ /ret$|reti|retn|call NN|rst|jr NN|jp NN|jp 
 sub disassemble {
 	my($class, $memory, $addr, $limit_addr) = @_;
 
-	my $self = $class->_new(memory 	=> $memory, 
-							addr 	=> $addr, 
-							is_code	=> 1,
-						   );
+	my $self = bless { 	memory 	=> $memory, 
+						addr 	=> $addr, 
+						is_code	=> 1,
+					}, $class;
 
 	# save bytes of all decoded instructions
 	my @found;				# other instructions found
@@ -391,11 +389,12 @@ sub _def_value {
 		$values->[$i] = $value;
 	}
 	
-	return $class->_new(memory	=> $memory,
-						addr 	=> $addr, 
-						size	=> $size * $count,
-						opcode 	=> "$def $N", 
-						$N 		=> $values);
+	return bless {	memory	=> $memory,
+					addr 	=> $addr, 
+					size	=> $size * $count,
+					opcode 	=> "$def $N", 
+					$N 		=> $values,
+				}, $class;
 }
 
 #------------------------------------------------------------------------------
@@ -411,11 +410,11 @@ sub _def_str {
 	my $str = $memory->$peek($addr, $length);
 	return undef unless defined $str;				# unloaded memory
 	
-	return $class->_new(memory	=> $memory,
+	return $class->new({memory	=> $memory,
 						addr 	=> $addr, 
 						size	=> length($str) + $eos_length,
 						opcode 	=> "$def STR", 
-						STR 	=> $str);
+						STR 	=> $str});
 }
 
 #------------------------------------------------------------------------------
@@ -427,11 +426,12 @@ sub defm7	{ shift->_def_str('peek_str7', 0, 'defm7', @_) }
 sub org { 
 	my($class, $memory, $addr) = @_;
 
-	return $class->_new(memory	=> $memory,
-						addr 	=> $addr, 
-						size	=> 0,
-						opcode 	=> "org NN", 
-						NN	 	=> $addr);
+	return bless {	memory	=> $memory,
+					addr 	=> $addr, 
+					size	=> 0,
+					opcode 	=> "org NN", 
+					NN	 	=> $addr,
+				}, $class;
 }
 
 #------------------------------------------------------------------------------
