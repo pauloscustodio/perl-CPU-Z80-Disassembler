@@ -759,7 +759,12 @@ sub _check_call {
 		if (defined $can_call) {
 			return $can_call if $sp_level == 0;
 		}
-		
+
+		# if address is not loaded, return "dont know"
+		if (!defined $self->memory->peek($addr)) {
+			return undef;
+		}
+
 		# get the instruction
 		my $instr = $self->_get_instr($addr);
 		local $_ = $instr->opcode;
