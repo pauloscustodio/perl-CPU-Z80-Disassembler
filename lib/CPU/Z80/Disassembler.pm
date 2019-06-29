@@ -650,8 +650,9 @@ sub code {
 			
 			# if address is not loaded, assume a ROM entry point
 			if (!defined $self->memory->peek($addr)) {
-				my $label = "ROM_".sprintf("%04X", $addr);
-				my $instr = $self->labels->add($addr, $label);
+				if (!$self->labels->search_addr($addr)) {
+					my $instr = $self->labels->add($addr);
+				}
 				next;
 			}
 			

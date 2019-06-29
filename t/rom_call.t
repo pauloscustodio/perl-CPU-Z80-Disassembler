@@ -36,6 +36,7 @@ sub match_line {
 }
 
 $dis->load_control_file("test.ctl");
+$dis->labels->add(0x0020, "OS1");
 $dis->code(0xC000, "START");
 $dis->code(0xC003);
 $dis->code(0xC006);
@@ -43,15 +44,17 @@ $dis->write_asm("test.asm");
 ok -f "test.asm";
 
 @lines = path("test.asm")->lines;
-match_line(qr/^ROM_0010\s+equ\s+\$0010/);
-match_line(qr/^ROM_0020\s+equ\s+\$0020/);
+match_line(qr/^L_0010\s+equ\s+\$0010/);
+match_line(qr/^OS1\s+equ\s+\$0020/);
 match_line(qr/^\s+org\s+\$C000/);
 match_line(qr/^START:/); 
-match_line(qr/^\s+jp\s+ROM_0010/); 
-match_line(qr/^\s+call\s+ROM_0020/); 
+match_line(qr/^\s+jp\s+L_0010/); 
+match_line(qr/^\s+call\s+OS1/); 
 match_line(qr/^\s+ret/); 
 ok @lines==0;
 
-ok unlink("test.asm", "test.ctl", "test.bin") == 3;
+if (Test::More->builder->is_passing) {
+	ok unlink("test.asm", "test.ctl", "test.bin") == 3;
+}
 
 done_testing;
