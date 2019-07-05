@@ -1171,7 +1171,7 @@ sub load_control_file {
 			}
 			
 			# Procedure
-			elsif (($label, $signature) = /^ P \s+ (\w+) \s+ (.*)/ix) {
+			elsif (($label, $signature) = /^ P \s+ (\w+) \s* (.*)/ix) {
 				$self->code($addr, $label);
 				$signature =~ s/,/ /g;
 				my @types = split(' ', $signature);
@@ -1199,7 +1199,7 @@ sub load_control_file {
 			}
 			
 			# Byte | Word
-			elsif (my($type, $ipl, $label) = /^ (B2 | B | W) (?: \[ (\d+) \] )? \s* (\w+)?/ix) {
+			elsif (my($type, $ipl, $label) = /^ (B2 | B | W | M) (?: \[ (\d+) \] )? \s* (\w+)?/ix) {
 				$self->labels->add($addr, $label) if defined $label;
 				$ipl = 16 unless $ipl;
 
@@ -1207,6 +1207,7 @@ sub load_control_file {
 				if    ($type eq 'B') {	($func, $size) = ('defb', 1); }
 				elsif ($type eq 'B2') {	($func, $size) = ('defb2', 1); }
 				elsif ($type eq 'W') {	($func, $size) = ('defw', 2); }
+				elsif ($type eq 'M') {	($func, $size) = ('defm', 1); $ipl = 32; }
 				else {					die "type $type unknown"; }
 				
 				if ($size == 2 && $addr == $end_addr) {

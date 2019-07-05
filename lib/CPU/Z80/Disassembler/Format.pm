@@ -121,16 +121,16 @@ sub format_dis {
 
 =head2 format_str
 
-Returns the string representation of an assembly string: single-quted, all
-single-quotes inside are doubled.
+Returns the string representation of an assembly string: double-quoted, all
+double-quotes inside are escaped.
 
 =cut
 
 #------------------------------------------------------------------------------
 sub format_str {
 	my($str) = @_;
-	$str =~ s/'/''/g;
-	return "'$str'";
+	$str =~ s/"/\\"/g;
+	return '"'.$str.'"';
 }
 #------------------------------------------------------------------------------
 
