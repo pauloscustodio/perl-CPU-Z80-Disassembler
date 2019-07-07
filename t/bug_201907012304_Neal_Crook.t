@@ -9,6 +9,7 @@ use Path::Tiny;
 use Test::More;
 
 # Bug report by Neal Crook <foofoobedoo@gmail.com> Jul 1, 2019, 11:04 PM
+# Wrong disassembly of list of 16-bit words that may be labels
 my $bin = z80asm(<<'END');
 lab0:   nop
 lab1:   nop
