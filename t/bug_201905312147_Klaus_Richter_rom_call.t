@@ -7,6 +7,9 @@ use Test::More;
 use Path::Tiny;
 use CPU::Z80::Disassembler;
 
+# Bug report by Klaus Richter <klaus.g.richter@gmx.net> Fri, May 31, 9:47 PM
+# how to specify an external address outside the program
+
 path("test.bin")->spew_raw(pack("C*", 
 							0xC3, 0x10, 0x00,
 							0xCD, 0x20, 0x00,
