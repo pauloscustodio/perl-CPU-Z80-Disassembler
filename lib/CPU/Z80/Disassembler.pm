@@ -411,10 +411,29 @@ sub _write_instr {
 	if (defined $instr) {
 		# instruction
 		if (defined($instr->NN) && !defined($instr->format->{NN})) {
-			my $NN = ref($instr->NN) ? $instr->NN->[0] : $instr->NN;
-			my $ref_label = $self->labels->search_addr($NN);
-			if (defined($ref_label)) {
-				$instr->format->{NN} = sub { $ref_label->name };
+			# nac the special case of 16-bit (defw) values which can
+			# nac potentially be converted to a label
+			if (ref($instr->NN)) {
+				my $max = scalar(@{$instr->NN});
+				for (my $i=0; $i<$max; $i++) {
+					my $NN = $instr->NN->[$i];
+					my $ref_label = $self->labels->search_addr($NN);
+					if (defined($ref_label)) {
+						$instr->NN->[$i] = $ref_label->name;
+						$instr->format->{NN} = 
+							sub { my $foo=shift; 
+								if (/^\d+$/) {return format_hex4($foo)} 
+								else {return $foo}
+							};
+					}
+				}
+			}
+			else {
+				my $NN = $instr->NN;
+				my $ref_label = $self->labels->search_addr($NN);
+				if (defined($ref_label)) {
+					$instr->format->{NN} = sub { $ref_label->name };
+				}
 			}
 		}
 		elsif (defined($instr->DIS) && !defined($instr->format->{DIS})) {
