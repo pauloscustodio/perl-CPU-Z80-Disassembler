@@ -5,11 +5,18 @@ use warnings;
 use ExtUtils::MakeMaker;
 use 5.010;
 
+my $mm_ver = $ExtUtils::MakeMaker::VERSION;
+if ($mm_ver =~ /_/) {
+    # developer release
+    $mm_ver = eval $mm_ver;
+    die $@ if $@;
+}
+
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile(
     NAME                => 'CPU::Z80::Disassembler',
-    AUTHOR              => 'Paulo Custodio <pscust@cpan.org',
+    AUTHOR              => 'Paulo Custodio <pscust@cpan.org>',
     VERSION_FROM        => 'lib/CPU/Z80/Disassembler.pm',
     ABSTRACT_FROM       => 'lib/CPU/Z80/Disassembler.pm',
     DISTNAME          	=> 'CPU-Z80-Disassembler',
@@ -29,17 +36,26 @@ WriteMakefile(
 		'bin/z80dis',
 	],
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-	MIN_PERL_VERSION 	=> 5.010,
-	LICENSE 			=> 'perl_5',
-	META_MERGE => {
+    ($mm_ver >= 6.48
+        ? (MIN_PERL_VERSION => 5.010)
+        : ()
+    ),
+    ($mm_ver <= 6.45
+        ? ()
+        : (META_MERGE => {
+            'meta-spec' => { version => 2 },
             resources => {
                 repository  => {
                     type => 'git',
-                    url  => 'git://github.com/pauloscustodio/perl-CPU-Z80-Disassembler.git',
+                    url  => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler.git',
                     web  => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler',
                 },
+			},
+			bugtracker => {
+				web => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler/issues',
             },
-          },
+          })
+    ),
     clean               => { FILES => 'CPU-Z80-Disassembler-*' },
 
 );
