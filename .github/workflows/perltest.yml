@@ -30,7 +30,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-            cpanm -v Asm::Preproc Asm::Z80::Table Bit::Vector Capture::Tiny Class::Accessor CPU::Z80::Assembler Iterator::Array::Jagged Iterator::Simple::Lookahead Class::Struct Data::Dump File::Slurp File::Spec DAGOLDEN/Path-Tiny-0.130.tar.gz Regexp::Trie Test::More Test::Output Text::Tabs Tie::File
+            cpanm --notest Path::Tiny
+            cpanm Asm::Preproc Asm::Z80::Table Capture::Tiny Iterator::Array::Jagged Iterator::Simple::Lookahead Class::Struct Data::Dump File::Slurp File::Spec Regexp::Trie Test::More Text::Tabs
       - name: Regular tests
         run: |
             perl Makefile.PL
