@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
-use 5.010;
+use 5.012;
 
 my $mm_ver = $ExtUtils::MakeMaker::VERSION;
 if ($mm_ver =~ /_/) {
@@ -37,7 +37,7 @@ WriteMakefile(
 	],
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     ($mm_ver >= 6.48
-        ? (MIN_PERL_VERSION => 5.010)
+        ? (MIN_PERL_VERSION => 5.012)
         : ()
     ),
     ($mm_ver <= 6.45
