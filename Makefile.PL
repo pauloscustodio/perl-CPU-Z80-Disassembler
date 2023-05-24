@@ -30,7 +30,7 @@ WriteMakefile(
 		'Test::Output'			=> 1.031,
 		'Tie::File'				=> 1.00,
         'Test::More'			=> 1.302162,
-		'Path::Tiny'			=> 0.108,
+		'Path::Tiny'			=> 0.130,
     },
 	EXE_FILES => [
 		'bin/z80dis',
