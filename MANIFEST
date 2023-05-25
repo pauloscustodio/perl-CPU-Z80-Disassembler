@@ -1,5 +1,5 @@
-bin/z80dis
 ARTISTIC.txt
+bin/z80dis
 Changes
 lib/CPU/Z80/Disassembler.pm
 lib/CPU/Z80/Disassembler/Format.pm
