@@ -1,3 +1,9 @@
+0.09	2023-05-25
+
+	Bug Fixes
+	* Add Meta information to Makefile.PL
+	* Run github workflow on multiple OSs
+
 0.08	2023-05-21
 
 	Bug Fixes
