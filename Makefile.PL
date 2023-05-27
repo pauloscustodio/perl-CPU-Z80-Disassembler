@@ -40,6 +40,7 @@ WriteMakefile(
         ? (MIN_PERL_VERSION => 5.012)
         : ()
     ),
+    ($mm_ver >= 6.31 ? (LICENSE => 'perl_5') : ()),
     ($mm_ver <= 6.45
         ? ()
         : (META_MERGE => {
