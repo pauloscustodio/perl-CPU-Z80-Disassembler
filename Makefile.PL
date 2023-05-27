@@ -50,10 +50,10 @@ WriteMakefile(
                     url  => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler.git',
                     web  => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler',
                 },
+				bugtracker => {
+					web => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler/issues',
+				},
 			},
-			bugtracker => {
-				web => 'https://github.com/pauloscustodio/perl-CPU-Z80-Disassembler/issues',
-            },
           })
     ),
     clean               => { FILES => 'CPU-Z80-Disassembler-*' },
